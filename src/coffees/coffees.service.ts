@@ -8,7 +8,9 @@ import { Coffee } from './entities/coffee.entity';
 import { Flavor } from './entities/flavor.entity';
 import { Event } from '../events/entities/event.entity';
 import { COFFEE_BRANDS } from './coffees.constants';
-import { ConfigService } from '../ConfigService/ConfigService';
+import { ConfigService, ConfigType } from '@nestjs/config';
+import coffeesConfig from './config/coffees.config';
+// import { ConfigService } from '../ConfigService/ConfigService';
 
 // @Injectable({ scope: Scope.TRANSIENT }) // Used en two constructors -> 2 instances
 // @Injectable({ scope: Scope.DEFAULT }) // Singleton -> 1 instance
@@ -22,11 +24,28 @@ export class CoffeesService {
     private readonly flavorRepository: Repository<Flavor>,
     private readonly connection: Connection,
     @Inject(COFFEE_BRANDS) coffeeBrands: string[],
+    // From ../ConfigService/ConfigService
+    // private readonly configService: ConfigService,
+    // From @nestjs/config
     private readonly configService: ConfigService,
+    @Inject(coffeesConfig.KEY)
+    private readonly coffeesConfiguration: ConfigType<typeof coffeesConfig>,
   ) {
-    console.log('CoffeeServce instantieated');
-    console.log(coffeeBrands);
-    console.log(configService);
+    // console.log('CoffeeServce instantieated');
+    // console.log(coffeeBrands);
+    // From ../ConfigService/ConfigService
+    // console.log(configService);
+    //From @nestjs/config
+    // const databaseHost = configService.get<string>(
+    //   'DATABASE_USERNAME',
+    //   'DEFAULT_USERNAME',
+    // );
+    // Reads ../config/app.config
+    // const databaseHost = configService.get('database.host', 'DEFAULT_USERNAME');
+    const databaseHost = configService.get('coffees.foo', 'DEFAULT_USERNAME');
+    console.log(databaseHost);
+
+    console.log({ coffeesConfiguration });
   }
 
   findAll(paginationQuery: PaginationQueryDto) {
