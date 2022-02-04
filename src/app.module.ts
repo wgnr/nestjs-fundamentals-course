@@ -9,6 +9,7 @@ import { DatabaseModule } from './database/database.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import appConfig from './config/app.config';
 import { validate } from './config/env.validation';
+import { CommonModule } from './common/common.module';
 
 @Module({
   imports: [
@@ -43,6 +44,7 @@ import { validate } from './config/env.validation';
     CoffeesModule,
     CoffeeRatingModule,
     DatabaseModule,
+    CommonModule,
   ],
   controllers: [AppController],
   providers: [AppService, ConfigService],

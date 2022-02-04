@@ -42,10 +42,9 @@ export class CoffeesService {
     // );
     // Reads ../config/app.config
     // const databaseHost = configService.get('database.host', 'DEFAULT_USERNAME');
-    const databaseHost = configService.get('coffees.foo', 'DEFAULT_USERNAME');
-    console.log(databaseHost);
-
-    console.log({ coffeesConfiguration });
+    // const databaseHost = configService.get('coffees.foo', 'DEFAULT_USERNAME');
+    // console.log(databaseHost);
+    // console.log({ coffeesConfiguration });
   }
 
   findAll(paginationQuery: PaginationQueryDto) {
@@ -58,6 +57,7 @@ export class CoffeesService {
   }
 
   async findOne(id: number) {
+    console.log(`CoffeesService ${id}`);
     const coffee = await this.coffeeRepository.findOne(id, {
       relations: ['flavors'],
     });
