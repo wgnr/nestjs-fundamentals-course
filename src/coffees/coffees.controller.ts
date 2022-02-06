@@ -19,8 +19,15 @@ import { CreateCoffeeDto } from './dto/create-coffee.dto';
 import { UpdateCoffeeDto } from './dto/update-coffee.dto';
 import { ParseIntPipe } from '../common/pipes/parse-int.pipe';
 import { Protocol } from 'src/common/decorators/protocol.decorator';
+import {
+  ApiBearerAuth,
+  ApiForbiddenResponse,
+  ApiNotFoundResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 const wait = promisify(setTimeout);
 
+@ApiTags('Coffees')
 @Controller('coffees')
 export class CoffeesController {
   constructor(private readonly coffeeService: CoffeesService) {
@@ -54,6 +61,9 @@ export class CoffeesController {
     return this.coffeeService.create(createCoffeeDto);
   }
 
+  @ApiBearerAuth()
+  @ApiForbiddenResponse({ description: 'Forbidden' })
+  @ApiNotFoundResponse()
   @Patch(':id')
   update(
     @Param('id', ParseIntPipe) id: number,

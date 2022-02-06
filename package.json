@@ -26,7 +26,8 @@
     "predb:migrate:revert": "npm run build",
     "db:migrate:revert": "npx typeorm migration:revert",
     "predb:migrate:autogenerate": "npm run build",
-    "db:migrate:autogenerate": "npx typeorm migration:generate -n SchemaSync"
+    "db:migrate:autogenerate": "npx typeorm migration:generate -n SchemaSync",
+    "doc:generate": "npx @compodoc/compodoc -p tsconfig.json -s"
   },
   "dependencies": {
     "@nestjs/common": "^8.0.0",
@@ -34,6 +35,7 @@
     "@nestjs/core": "^8.0.0",
     "@nestjs/mapped-types": "^1.0.1",
     "@nestjs/platform-express": "^8.0.0",
+    "@nestjs/swagger": "^5.2.0",
     "@nestjs/typeorm": "^8.0.3",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.13.2",
@@ -42,9 +44,11 @@
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^7.2.0",
+    "swagger-ui-express": "^4.3.0",
     "typeorm": "^0.2.41"
   },
   "devDependencies": {
+    "@compodoc/compodoc": "^1.1.18",
     "@nestjs/cli": "^8.0.0",
     "@nestjs/schematics": "^8.0.0",
     "@nestjs/testing": "^8.0.0",
