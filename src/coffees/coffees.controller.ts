@@ -9,6 +9,8 @@ import {
   Post,
   Query,
 } from '@nestjs/common';
+import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
+import { ValidateMongoIdPipe } from '../common/pipes/ValidateMongoId.pipe';
 import { CoffeesService } from './coffees.service';
 import { CreateCoffeeDto } from './dto/create-coffee.dto';
 import { UpdateCoffeeDto } from './dto/update-coffee.dto';
@@ -18,15 +20,14 @@ export class CoffeesController {
   constructor(private readonly coffeeService: CoffeesService) {}
 
   @Get()
-  findAll(@Query() paginationQuery) {
-    const { limit, offset } = paginationQuery;
-    return this.coffeeService.findAll();
+  findAll(@Query() paginationQuery: PaginationQueryDto) {
+    return this.coffeeService.findAll(paginationQuery);
   }
 
   @Get(':id')
   // ParseIntPipe will thrown an error when can't convert it correctly
   // findOne(@Param('id', ParseIntPipe) id: number) {
-  findOne(@Param('id') id: number) {
+  findOne(@Param('id', ValidateMongoIdPipe) id: string) {
     return this.coffeeService.findOne(id);
   }
 
@@ -36,13 +37,16 @@ export class CoffeesController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: number, @Body() updateCoffeeDto: UpdateCoffeeDto) {
+  update(
+    @Param('id', ValidateMongoIdPipe) id: string,
+    @Body() updateCoffeeDto: UpdateCoffeeDto,
+  ) {
     console.log(updateCoffeeDto);
     return this.coffeeService.update(id, updateCoffeeDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: number) {
+  remove(@Param('id', ValidateMongoIdPipe) id: string) {
     this.coffeeService.remove(id);
   }
 }

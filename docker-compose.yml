@@ -1,0 +1,11 @@
+version: '3.7'
+
+services:
+  db:
+    container_name: iluvcoffee_mongodb
+    image: mongo:4.2.15
+    restart: always
+    ports:
+      - 27017:27017
+    environment:
+      MONGODB_DATABASE: nest-course
